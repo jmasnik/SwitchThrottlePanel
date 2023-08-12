@@ -2,7 +2,7 @@
 #include "HID-Project.h"
 
 #define SWITCH_COUNT 4
-#define AXIS_COUNT 5
+#define AXIS_COUNT 6
 #define BUTTON_TMR_MAX 200
 
 // cudlik
@@ -121,6 +121,17 @@ void setup() {
   axis_list[4].out_low = -32768;
   axis_list[4].out_high = 32767;
 
+  // bocni
+  axis_list[5].pin = A2;
+  axis_list[5].adc_limit_low = 0;
+  axis_list[5].adc_limit_high = 1023;
+  axis_list[5].adc_real = 0;
+  axis_list[5].adc_real_dbl = 0;
+  axis_list[5].out_actual = 0;
+  axis_list[5].out_prev = 0;
+  axis_list[5].out_low = -128;
+  axis_list[5].out_high = 127;
+
   pinMode(pinLed, OUTPUT);
 
   for(i = 0; i < SWITCH_COUNT; i++){
@@ -220,6 +231,7 @@ void loop() {
   if(gp_write == 1 && (millis() - ms_gamepad > 5 || millis() < ms_gamepad)){
     Gamepad.xAxis((int16_t)axis_list[3].out_actual);
     Gamepad.yAxis((int16_t)axis_list[4].out_actual);
+    Gamepad.zAxis((int8_t)axis_list[5].out_actual);
     Gamepad.rxAxis((int16_t)axis_list[0].out_actual);
     Gamepad.ryAxis((int16_t)axis_list[1].out_actual);
     Gamepad.rzAxis((int8_t)axis_list[2].out_actual);
